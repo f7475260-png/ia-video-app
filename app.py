@@ -34,3 +34,8 @@ if script and st.button("🎤 Générer voix et vidéo"):
     st.video("final_video.mp4")
 
     st.success("✅ Vidéo générée avec succès !")
+    import os
+from moviepy.config import change_settings
+
+# Chemin vers ImageMagick (si nécessaire)
+change_settings({"IMAGEMAGICK_BINARY": r"C:\Program Files\ImageMagick-7.1.1-Q16-HDRI\magick.exe"})
