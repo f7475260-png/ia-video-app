@@ -1,41 +1,43 @@
 import streamlit as st
-from moviepy.editor import TextClip, CompositeVideoClip
+import cv2
+import numpy as np
+from moviepy.editor import ImageClip, AudioFileClip, CompositeVideoClip
 from gtts import gTTS
 from PIL import Image
-import os
 
-st.title("🎬 Générateur de vidéo IA – Style InVideo")
+st.title("🎬 Générateur IA de vidéo simplifiée")
 
 # 1. Texte utilisateur
-script = st.text_area("✏️ Entrez votre script ici :")
+script = st.text_area("📝 Écris ton script ici")
 
-# 2. Choix de voix
-language = st.selectbox("🗣️ Choisissez la langue de la voix", ["fr", "en", "es", "de"])
+# 2. Langue de synthèse vocale
+lang = st.selectbox("🌍 Choisis la langue de la voix", ["fr", "en", "es", "de"])
 
-# 3. Image de fond (optionnelle)
-uploaded_image = st.file_uploader("📷 Ajoutez une image de fond (facultatif)", type=["jpg", "png"])
+# 3. Image de fond
+uploaded_img = st.file_uploader("🖼️ Ajoute une image de fond", type=["jpg", "png"])
 
-# 4. Génération audio
-if script and st.button("🎤 Générer voix et vidéo"):
-    tts = gTTS(text=script, lang=language)
+if script and st.button("🎥 Générer la vidéo"):
+    # Génération audio avec gTTS
+    tts = gTTS(text=script, lang=lang)
     tts.save("voice.mp3")
 
-    clip = TextClip(script, fontsize=50, color='white', bg_color='black', size=(1280, 720)).set_duration(10)
+    # Générer une image texte avec OpenCV
+    image = np.zeros((720, 1280, 3), dtype=np.uint8)
+    image[:] = (0, 0, 0)  # fond noir
 
-    if uploaded_image:
-        bg_image = Image.open(uploaded_image).resize((1280, 720))
-        bg_image.save("bg.png")
-        image_clip = ImageClip("bg.png").set_duration(10)
-        video = CompositeVideoClip([image_clip, clip.set_position("center")])
-    else:
-        video = clip
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    wrapped_text = script[:200] + "..." if len(script) > 200 else script
+    cv2.putText(image, wrapped_text, (50, 360), font, 1.2, (255, 255, 255), 2, cv2.LINE_AA)
 
-    video.write_videofile("final_video.mp4", fps=24)
-    st.video("final_video.mp4")
+    # Sauver l’image
+    cv2.imwrite("frame.png", image)
 
-    st.success("✅ Vidéo générée avec succès !")
-    import os
-from moviepy.config import change_settings
+    # Charger l’image + audio dans MoviePy
+    img_clip = ImageClip("frame.png").set_duration(10)
+    audio_clip = AudioFileClip("voice.mp3")
+    final = img_clip.set_audio(audio_clip)
 
-# Chemin vers ImageMagick (si nécessaire)
-change_settings({"IMAGEMAGICK_BINARY": r"C:\Program Files\ImageMagick-7.1.1-Q16-HDRI\magick.exe"})
+    # Exporter la vidéo
+    final.write_videofile("final_output.mp4", fps=24)
+    st.video("final_output.mp4")
+    st.success("✅ Vidéo créée avec succès !")
