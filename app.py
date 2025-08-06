@@ -1,3 +1,7 @@
+clip = ColorClip(size=(1280, 720), color=(0, 0, 0), duration=duration)
+clip = clip.set_audio(audio)
+clip.fps = 24   # <-- Très important ici !
+clip.write_videofile(video_path, codec="libx264", audio_codec="aac")
 import streamlit as st
 from gtts import gTTS
 from moviepy.editor import *
