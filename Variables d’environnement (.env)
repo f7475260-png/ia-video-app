@@ -1,0 +1,5 @@
+HUGGINGFACE_API_KEY=ta_cle_ou_vide
+HF_MODEL_ID=gpt2
+HF_API_URL=https://api-inference.huggingface.co/models
+APP_HOST=0.0.0.0
+APP_PORT=7860
