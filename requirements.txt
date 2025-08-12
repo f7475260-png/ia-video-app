@@ -1,9 +1,0 @@
-streamlit
-moviepy==1.0.3
-gtts
-requests
-Pillow
-imageio[ffmpeg]
-
-
-
