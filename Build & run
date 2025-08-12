@@ -1,0 +1,2 @@
+docker build -t video-ai-generator .
+docker run -p 7860:7860 --env-file .env -v $(pwd)/output:/app/output video-ai-generator
