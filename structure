@@ -1,0 +1,22 @@
+video-ai-generator/
+├── app.py
+├── requirements.txt
+├── .env                      # clés API (ne pas committer)
+├── .gitignore
+├── static/
+│   └── style.css
+├── templates/
+│   └── index.html
+├── assets/
+│   ├── images/               # .jpg/.jpeg/.png
+│   └── music/                # .mp3
+├── output/                   # vidéos et audios générés
+├── utils/
+│   ├── script_generator.py
+│   ├── text_to_speech.py
+│   ├── music_selector.py
+│   └── video_generator.py
+├── streamlit_app.py          # option Streamlit
+├── render.yaml               # option Render
+├── Dockerfile                # option Docker
+└── README.md
