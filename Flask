@@ -1,0 +1,39 @@
+import tkinter as tk
+from tkinter import ttk
+
+def get_resolution(format_type):
+    resolutions = {
+        "YouTube": "1920x1080",
+        "TikTok": "1080x1920",
+        "Short": "1080x1920",
+        "Instagram": "1080x1080"
+    }
+    return resolutions.get(format_type, "1920x1080")
+
+def on_format_change(event):
+    selected = format_selector.get()
+    res_label.config(text=f"Résolution cible : {get_resolution(selected)}")
+
+# --- Fenêtre principale ---
+root = tk.Tk()
+root.title("Sélecteur de Format Vidéo")
+root.geometry("400x250")
+root.configure(bg="#1e1e2f")
+
+# --- Titre ---
+title = tk.Label(root, text="🎬 Choisis ton format", font=("Helvetica", 16, "bold"), bg="#1e1e2f", fg="#ffffff")
+title.pack(pady=20)
+
+# --- Menu déroulant ---
+format_selector = ttk.Combobox(root, values=["YouTube", "TikTok", "Short", "Instagram"], font=("Helvetica", 12))
+format_selector.set("YouTube")
+format_selector.pack()
+
+# --- Résolution affichée ---
+res_label = tk.Label(root, text=f"Résolution cible : {get_resolution('YouTube')}", font=("Helvetica", 12), bg="#1e1e2f", fg="#f5f5f5")
+res_label.pack(pady=10)
+
+# --- Action ---
+format_selector.bind("<<ComboboxSelected>>", on_format_change)
+
+root.mainloop()
