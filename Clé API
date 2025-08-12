@@ -1,0 +1,8 @@
+git clone https://github.com/<ton-compte>/<ton-repo>.git
+cd <ton-repo>
+python -m venv .venv
+# Linux/macOS
+source .venv/bin/activate
+# Windows
+# .venv\Scripts\activate
+pip install -r requirements.txt
