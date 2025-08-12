@@ -1,0 +1,8 @@
+flask
+moviepy
+requests
+gTTS
+python-dotenv
+streamlit
+pillow
+numpy
